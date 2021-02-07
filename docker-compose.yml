@@ -1,0 +1,36 @@
+#docker-composeのバージョンを指定
+version: "3.8"
+
+#指定したvolume名を各コンテナで共有できるようになる。
+volumes:
+  docker-volume:
+
+#コンテナ詳細
+services:
+
+
+  #phpアプリケーションのコンテナ
+  php:
+    build:
+        context: ./docker/php
+        dockerfile: Dockerfile
+    container_name: php-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www/html/
+
+  #データベースのコンテナ
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: laravel-test
+      MYSQL_USER: naoki
+      MYSQL_PASSWORD: naoki
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - docker-volume:/var/lib/mysql
