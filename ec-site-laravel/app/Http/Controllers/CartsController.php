@@ -26,6 +26,7 @@ class CartsController extends Controller
             $data = [];
             foreach ($products as $product) {
                 $data[] = [
+                    'product_id' => $product->id,
                     'product_name' => $product->title,
                     'category_name' => $product->category->name,
                     'product_price' => $product->price,
@@ -153,4 +154,27 @@ class CartsController extends Controller
         //     ], $status);
         // }
     }
+
+    public function delete(Request $request)
+    {
+
+        try {
+            // 多対多で簡潔に書く
+            $user = User::where('id', $request->user_id)->first();
+            $data = $user->delcart($request->product_id); // User.phpのunlikeを呼び出す
+            $message = 'DB connected & like destory';
+            $status = 200;
+        } catch (\Throwable $th) {
+            $message = 'ERROR DB connection NG ';
+            $status = 500;
+        } finally {
+            return response()->json([
+                'data' => $data,
+                'message' => $message
+            ], $status);
+        }
+
+    }
+
+    
 }

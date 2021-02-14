@@ -177,4 +177,38 @@ class LikesController extends Controller
         }
     }
 
+    public function delete(Request $request)
+    {
+        // こっちは使わない
+        // try {
+        //     // $item = Like::where('user_id', $like->user_id)->where('product_id', $like->product_id)->delete();
+        //     $item = Like::where('id', $like->id)->delete();
+        //     $message = 'DB connected & likes successfully deleted';
+        //     $status = 200;
+        // } catch (\Throwable $th) {
+        //     $message = 'ERROR DB connection NG ';
+        //     $status = 500;
+        // } finally {
+        //     return response()->json([
+        //         'message' => $message
+        //     ], $status);
+        // }
+
+        
+        try {
+            $user = User::where('id', $request->user_id)->first();
+            $data = $user->unlike($request->product_id); // User.phpのunlikeを呼び出す
+            $message = 'DB connected & like successfully destory';
+            $status = 200;
+        } catch (\Throwable $th) {
+            $message = 'ERROR DB connection NG ';
+            $status = 500;
+        } finally {
+            return response()->json([
+                'data' => $data, // true or false判定
+                'message' => $message
+            ], $status);
+        }
+    }
+
 }

@@ -97,8 +97,10 @@ class ProductsController extends Controller
             $data = [];
             foreach($products as $product) {
                 $data[] = [
+                    'id' => $product->id,
                     'category_name' => $product->category->name,
                     'product_name' => $product->title,
+                    'price' => $product->price,
                     'image_url' => $product->images()->select('image_url')->get()->toArray()
                 ];
             }
@@ -219,6 +221,8 @@ class ProductsController extends Controller
                 $data[] = [
                     'category_name' => $product->category->name,
                     'product_name' => $product->title,
+                    'description' => $product->description,
+                    'price' => $product->price,
                     'image_url' => $product->images()->select('image_url')->get()->toArray()
                 ];
             }

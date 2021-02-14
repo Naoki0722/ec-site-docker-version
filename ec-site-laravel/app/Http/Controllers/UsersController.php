@@ -105,7 +105,7 @@ class UsersController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->tell_number = $request->tell_number;
-            $user->password = Hash::make($request->password);
+            // $user->password = Hash::make($request->password);
             $user->updated_at = $now;
             $user->save();
             $message = 'DB connected & account successfully created';
